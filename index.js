@@ -1,93 +1,93 @@
 var _blogname = "blog-xhg78999";
-    var _title = $("#Header1_HeaderTitle").text();
-    var _subtitle = $("#blogTitle > h2").text();
-    var _foot = $("#footer").html();
-    var _username = $("#profile_block > a:nth-child(1)").text();
-    var _headurl = "https://pic.cnblogs.com/avatar/1974585/20220323191955.png";
-    var _thumb = "https://img2022.cnblogs.com/blog/1974585/202204/1974585-20220411094042227-436386299.png";
-    function _dialog(title, content, button, callback) {
-        mdui.dialog({
-            title: title,
-            content: content,
-            buttons: [
-                {
-                    text: '取消'
-                },
-                {
-                    text: button,
-                    onClick: callback
-                }
-            ]
-        });
-    }
-    function _pop(msg) {
-        mdui.snackbar({
-            message: msg,
-            position: 'right-bottom',
-        });
-    }
-    function _feed() {
-        $.ajax({
-            url: `https://www.cnblogs.com/${_blogname}/ajax/blogSubscription`,
-            method: "GET",
-            success: function (res) {
-                var login = res.isAuthenticated;
-                var status = res.isSubscribed;
-                var owner = res.isBlogOwner;
-                if (!login) {
-                    _pop("请先登录账号");
-                } else if (owner) {
-                    _pop("不可以订阅自己的博客");
-                } else if (!status) {
-                    _dialog("订阅", "是否订阅？<br>订阅后您可以在博客园首页查看订阅。", "订阅", function () {
-                        $.ajax({
-                            url: `https://www.cnblogs.com/${_blogname}/ajax/blogSubscription`,
-                            method: "POST",
-                            success: function () {
-                                _pop("订阅成功");
-                            },
-                            error: function () {
-                                _pop("订阅失败，请检查网络");
-                            }
-                        });
-                    });
-                } else {
-                    _dialog("取消订阅", "您已订阅该博客，是否取消订阅？", "取消订阅", function () {
-                        $.ajax({
-                            url: `https://www.cnblogs.com/${_blogname}/ajax/blogSubscription`,
-                            method: "DELETE",
-                            success: function () {
-                                _pop("取消订阅成功");
-                            },
-                            error: function () {
-                                _pop("取消订阅失败，请检查网络");
-                            }
-                        });
-                    })
-                }
-            }
-        });
-    }
-    function _saying() {
-        $.ajax({
-            url: "https://open.iciba.com/dsapi/",
-            dataType: "JSONP",
-            success: function (data) {
-                $(".saying").text(data.note);
+var _title = $("#Header1_HeaderTitle").text();
+var _subtitle = $("#blogTitle > h2").text();
+var _foot = $("#footer").html();
+var _username = $("#profile_block > a:nth-child(1)").text();
+var _headurl = "https://pic.cnblogs.com/avatar/1974585/20220323191955.png";
+var _thumb = "https://img2022.cnblogs.com/blog/1974585/202204/1974585-20220411094042227-436386299.png";
+function _dialog(title, content, button, callback) {
+    mdui.dialog({
+        title: title,
+        content: content,
+        buttons: [
+            {
+                text: '取消'
             },
-            error: function (xhr, status, err) {
-                $(".saying").text("噫，网似断矣！");
+            {
+                text: button,
+                onClick: callback
             }
-        })
-    }
-    function _articles() {
-        var posts = "";
-        for (var j = 0; j < $(".day").length; j++) {
-            var posttitle = $($(".postTitle")[j]).text();
-            var postinfo = $($(".postDesc")[j]).text().replace("posted @ ", "").replace("(", "").replace(")", " ").replace(" 编辑", "");
-            var postdescription = $($(".c_b_p_desc")[j]).text().replace("摘要：", "").replace(" 阅读全文", "");
-            var postlink = $($(".c_b_p_desc_readmore")[j]).attr("href");
-            posts += `<div class="mdui-card article">
+        ]
+    });
+}
+function _pop(msg) {
+    mdui.snackbar({
+        message: msg,
+        position: 'right-bottom',
+    });
+}
+function _feed() {
+    $.ajax({
+        url: `https://www.cnblogs.com/${_blogname}/ajax/blogSubscription`,
+        method: "GET",
+        success: function (res) {
+            var login = res.isAuthenticated;
+            var status = res.isSubscribed;
+            var owner = res.isBlogOwner;
+            if (!login) {
+                _pop("请先登录账号");
+            } else if (owner) {
+                _pop("不可以订阅自己的博客");
+            } else if (!status) {
+                _dialog("订阅", "是否订阅？<br>订阅后您可以在博客园首页查看订阅。", "订阅", function () {
+                    $.ajax({
+                        url: `https://www.cnblogs.com/${_blogname}/ajax/blogSubscription`,
+                        method: "POST",
+                        success: function () {
+                            _pop("订阅成功");
+                        },
+                        error: function () {
+                            _pop("订阅失败，请检查网络");
+                        }
+                    });
+                });
+            } else {
+                _dialog("取消订阅", "您已订阅该博客，是否取消订阅？", "取消订阅", function () {
+                    $.ajax({
+                        url: `https://www.cnblogs.com/${_blogname}/ajax/blogSubscription`,
+                        method: "DELETE",
+                        success: function () {
+                            _pop("取消订阅成功");
+                        },
+                        error: function () {
+                            _pop("取消订阅失败，请检查网络");
+                        }
+                    });
+                })
+            }
+        }
+    });
+}
+function _saying() {
+    $.ajax({
+        url: "https://open.iciba.com/dsapi/",
+        dataType: "JSONP",
+        success: function (data) {
+            $(".saying").text(data.note);
+        },
+        error: function (xhr, status, err) {
+            $(".saying").text("噫，网似断矣！");
+        }
+    })
+}
+function _articles() {
+    var posts = "";
+    for (var j = 0; j < $(".day").length; j++) {
+        var posttitle = $($(".postTitle")[j]).text();
+        var postinfo = $($(".postDesc")[j]).text().replace("posted @ ", "").replace("(", "").replace(")", " ").replace(" 编辑", "");
+        var postdescription = $($(".c_b_p_desc")[j]).text().replace("摘要：", "").replace(" 阅读全文", "");
+        var postlink = $($(".c_b_p_desc_readmore")[j]).attr("href");
+        posts += `<div class="mdui-card article">
                 <div class="mdui-card-primary">
                     <div class="mdui-card-primary-title">${posttitle}</div>
                     <div class="mdui-card-primary-subtitle">${postinfo}</div>
@@ -99,16 +99,16 @@ var _blogname = "blog-xhg78999";
             </div>
             <br>
             `;
-        }
-        return posts;
     }
-    function _plist() {
-        var posts = "";
-        for (var j = 0; j < $(".PostList").length; j++) {
-            var posttitle = $($(".postTitl2")[j]).text();
-            var postinfo = $($(".postDesc2")[j]).text().replace("posted @ ", "").replace("(", "").replace(")", " ").replace(" 编辑", "");
-            var postlink = $($(".vertical-middle")[j]).attr("href");
-            posts += `<div class="mdui-card article">
+    return posts;
+}
+function _plist() {
+    var posts = "";
+    for (var j = 0; j < $(".PostList").length; j++) {
+        var posttitle = $($(".postTitl2")[j]).text();
+        var postinfo = $($(".postDesc2")[j]).text().replace("posted @ ", "").replace("(", "").replace(")", " ").replace(" 编辑", "");
+        var postlink = $($(".vertical-middle")[j]).attr("href");
+        posts += `<div class="mdui-card article">
                 <div class="mdui-card-primary">
                     <div class="mdui-card-primary-title">${posttitle}</div>
                     <div class="mdui-card-primary-subtitle">${postinfo}</div>
@@ -119,36 +119,46 @@ var _blogname = "blog-xhg78999";
             </div>
             <br>
             `;
-        }
-        return posts;
     }
-    function _post() {
-        var arttitle = $("#cb_post_title_url > span").text();
-        var artcontent = $("#cnblogs_post_body").html();
-        return `
+    return posts;
+}
+function _post() {
+    var arttitle = $("#cb_post_title_url > span").text();
+    var artcontent = $("#cnblogs_post_body").html();
+    return `
         <div class="mdui-typo">
             <h1>${arttitle}</h1>
             <hr>
             ${artcontent}
         </div>
         `;
+}
+function _content() {
+    var path = location.pathname;
+    if (path[path.length - 1] === "/") {
+        path = path.slice(0, -1);
     }
-    function _content() {
-        var path = location.pathname;
-        if (path[path.length - 1] === "/") {
-            path = path.slice(0, -1);
-        }
-        if (path === `/${_blogname}`) {
-            return _articles();
-        } else if (path === `/${_blogname}/p`) {
-            return _plist();
-        } else if (path.includes("p") || path.includes("articles")) {
-            return _post();
-        }
+    if (path === `/${_blogname}`) {
+        return _articles();
+    } else if (path === `/${_blogname}/p`) {
+        return _plist();
+    } else if (path.includes("p") || path.includes("articles")) {
+        return _post();
     }
-    function _init() {
-        var page = $(
-            `<div id="mblog">
+}
+function _resource() {
+    $("head").append($(
+        `
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/XHG78999/mblog.css" />
+        <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/js/mdui.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>`
+    ));
+}
+function _init() {
+    _resource();
+    var page = $(
+        `<div id="mblog">
                 <div class="mdui-appbar">
                     <div class="mdui-toolbar mdui-color-indigo">
                         <a href="javascript:_drawer.open();" class="mdui-btn mdui-btn-icon">
@@ -214,16 +224,16 @@ var _blogname = "blog-xhg78999";
                 </div>
             </div>
             `
-        );
-        $("body").append(page);
-        var _drawer = new mdui.Drawer($("#content-info"), { overlay: true });
-        _saying();
-        $(window).scroll(function () {
-            if (window.scrollY > 500) {
-                $(".mdui-fab").removeClass(".mdui-fab-hide");
-            } else {
-                $(".mdui-fab").addClass(".mdui-fab-hide");
-            }
-        });
-    }
-    $(window).ready(_init);
+    );
+    $("body").append(page);
+    var _drawer = new mdui.Drawer($("#content-info"), { overlay: true });
+    _saying();
+    $(window).scroll(function () {
+        if (window.scrollY > 500) {
+            $(".mdui-fab").removeClass(".mdui-fab-hide");
+        } else {
+            $(".mdui-fab").addClass(".mdui-fab-hide");
+        }
+    });
+}
+$(window).ready(_init);
