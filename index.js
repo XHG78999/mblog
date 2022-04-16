@@ -147,7 +147,7 @@ function _content() {
     }
 }
 function _resource() {
-    $("head").append($(
+    $("body").append($(
         `
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/XHG78999/mblog.css" />
