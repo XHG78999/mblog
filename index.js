@@ -154,6 +154,9 @@ function _resource() {
         <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/js/mdui.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>`
     ));
+    while(typeof(mdui)!==undefined){
+        ;
+    }
 }
 function _init() {
     _resource();
